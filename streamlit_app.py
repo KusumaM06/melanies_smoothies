@@ -18,11 +18,16 @@ session = cnx.session()
 my_dataframe = session.table("smoothies.public.fruit_options").select(col('FRUIT_NAME'))
 
 # Allow the user to select up to 5 ingredients
-ingredients_list = st.multiselect('Choose up to 5 ingredients:', my_dataframe.collect(), max_selections=5)
+ingredients_list = st.multiselect('Choose up to 5 ingredients:'
+                                  ,my_dataframe.collect()
+                                  ,max_selections=5)
 
 if ingredients_list:
     # Create a string of chosen ingredients
-    ingredients_string = ' '.join(ingredients_list)
+    ingredients_string = ' '
+    for fruit_chose in ingredients_list:
+        ingredients_string += fruit_chosen + ' '
+        
 
     # Create an INSERT SQL statement
     my_insert_stmt = f"""INSERT INTO smoothies.public.orders(ingredients)
